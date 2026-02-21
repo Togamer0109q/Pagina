@@ -1,0 +1,299 @@
+<!doctype html>
+<html lang="es">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Neon Vice Store</title>
+    <style>
+      :root {
+        --bg-1: #09030f;
+        --bg-2: #170a27;
+        --pink: #ff4fd8;
+        --violet: #9b5dff;
+        --cyan: #3de4ff;
+        --sun: #ff9f43;
+        --text: #f8f8ff;
+        --muted: #c6bfd6;
+        --card: rgba(14, 7, 28, 0.72);
+        --stroke: rgba(255, 255, 255, 0.2);
+      }
+
+      * {
+        box-sizing: border-box;
+      }
+
+      html,
+      body {
+        margin: 0;
+        padding: 0;
+        min-height: 100%;
+        font-family: "Inter", "Segoe UI", system-ui, sans-serif;
+        color: var(--text);
+        background: radial-gradient(circle at 70% 20%, #34114f 0%, transparent 42%),
+          radial-gradient(circle at 20% 80%, #130a2f 0%, transparent 45%),
+          linear-gradient(180deg, var(--bg-2) 0%, var(--bg-1) 62%);
+      }
+
+      .noise::before {
+        content: "";
+        position: fixed;
+        inset: 0;
+        pointer-events: none;
+        background-image: radial-gradient(rgba(255, 255, 255, 0.08) 0.7px, transparent 0.7px);
+        background-size: 3px 3px;
+        mix-blend-mode: soft-light;
+        opacity: 0.12;
+      }
+
+      .hero {
+        position: relative;
+        min-height: 100vh;
+        display: grid;
+        align-items: end;
+        overflow: hidden;
+        isolation: isolate;
+      }
+
+      .sun {
+        position: absolute;
+        width: min(52vw, 580px);
+        aspect-ratio: 1;
+        left: 50%;
+        top: 18%;
+        transform: translateX(-50%);
+        border-radius: 50%;
+        background: linear-gradient(180deg, #ffd299 0%, #ff9655 35%, #ff4fd8 100%);
+        box-shadow: 0 0 60px rgba(255, 137, 92, 0.5), 0 0 130px rgba(255, 79, 216, 0.35);
+        opacity: 0.9;
+      }
+
+      .sun::after {
+        content: "";
+        position: absolute;
+        inset: 0;
+        border-radius: 50%;
+        background: repeating-linear-gradient(
+          180deg,
+          transparent 0px,
+          transparent 16px,
+          rgba(31, 8, 42, 0.55) 16px,
+          rgba(31, 8, 42, 0.55) 20px
+        );
+      }
+
+      .city {
+        position: absolute;
+        inset: auto 0 0;
+        height: 40vh;
+        background: linear-gradient(180deg, transparent 0%, #09030f 95%),
+          linear-gradient(90deg, rgba(21, 10, 40, 0.6) 8%, rgba(28, 13, 46, 0.95) 10%, transparent 10%),
+          linear-gradient(90deg, transparent 14%, rgba(24, 12, 42, 0.9) 14%, rgba(24, 12, 42, 0.9) 16%, transparent 16%),
+          linear-gradient(90deg, transparent 22%, rgba(19, 9, 35, 0.95) 22%, rgba(19, 9, 35, 0.95) 25%, transparent 25%),
+          linear-gradient(90deg, transparent 33%, rgba(27, 12, 47, 0.92) 33%, rgba(27, 12, 47, 0.92) 36%, transparent 36%),
+          linear-gradient(90deg, transparent 47%, rgba(17, 9, 30, 0.95) 47%, rgba(17, 9, 30, 0.95) 53%, transparent 53%),
+          linear-gradient(90deg, transparent 59%, rgba(26, 12, 42, 0.95) 59%, rgba(26, 12, 42, 0.95) 62%, transparent 62%),
+          linear-gradient(90deg, transparent 68%, rgba(19, 10, 35, 0.9) 68%, rgba(19, 10, 35, 0.9) 73%, transparent 73%),
+          linear-gradient(90deg, transparent 79%, rgba(25, 11, 41, 0.95) 79%, rgba(25, 11, 41, 0.95) 83%, transparent 83%);
+        opacity: 0.95;
+      }
+
+      .content {
+        position: relative;
+        z-index: 3;
+        width: min(1120px, 92vw);
+        margin: 0 auto;
+        padding: clamp(1.2rem, 2.5vw, 2.5rem) 0 clamp(2rem, 5vw, 4rem);
+      }
+
+      .kicker {
+        margin: 0;
+        text-transform: uppercase;
+        letter-spacing: 0.33em;
+        font-size: 0.8rem;
+        color: var(--cyan);
+      }
+
+      h1 {
+        margin: 0.5rem 0 0;
+        font-size: clamp(2.4rem, 11vw, 9rem);
+        line-height: 0.87;
+        letter-spacing: 0.04em;
+        text-transform: uppercase;
+        text-shadow: 0 0 20px rgba(255, 92, 210, 0.55);
+      }
+
+      .tagline {
+        max-width: 56ch;
+        color: var(--muted);
+        font-size: clamp(0.98rem, 1.45vw, 1.2rem);
+        margin: 1rem 0 1.8rem;
+      }
+
+      .actions {
+        display: flex;
+        gap: 0.8rem;
+        flex-wrap: wrap;
+      }
+
+      .btn {
+        border: 1px solid transparent;
+        border-radius: 999px;
+        padding: 0.72rem 1.25rem;
+        font-weight: 700;
+        font-size: 0.95rem;
+        text-decoration: none;
+        color: var(--text);
+        transition: 0.25s ease;
+      }
+
+      .btn-primary {
+        background: linear-gradient(90deg, var(--pink), var(--violet));
+        box-shadow: 0 8px 28px rgba(155, 93, 255, 0.45);
+      }
+
+      .btn-primary:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 14px 36px rgba(155, 93, 255, 0.55);
+      }
+
+      .btn-ghost {
+        border-color: var(--stroke);
+        background: rgba(255, 255, 255, 0.04);
+      }
+
+      .btn-ghost:hover {
+        border-color: rgba(255, 255, 255, 0.45);
+        background: rgba(255, 255, 255, 0.08);
+      }
+
+      .store-panel {
+        margin-top: 2rem;
+        background: var(--card);
+        border: 1px solid var(--stroke);
+        border-radius: 20px;
+        backdrop-filter: blur(8px);
+        padding: 1rem;
+      }
+
+      .store-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        gap: 0.8rem;
+        margin-bottom: 0.6rem;
+      }
+
+      .store-header h2 {
+        margin: 0;
+        font-size: 1.1rem;
+      }
+
+      .badge {
+        border: 1px solid rgba(255, 255, 255, 0.25);
+        border-radius: 999px;
+        padding: 0.2rem 0.62rem;
+        font-size: 0.78rem;
+        color: var(--cyan);
+      }
+
+      .products {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(190px, 1fr));
+        gap: 0.7rem;
+      }
+
+      .product {
+        background: rgba(9, 3, 17, 0.75);
+        border: 1px solid rgba(255, 255, 255, 0.14);
+        border-radius: 14px;
+        padding: 0.85rem;
+      }
+
+      .product strong {
+        display: block;
+        font-size: 1rem;
+      }
+
+      .product span {
+        display: block;
+        color: var(--muted);
+        margin: 0.35rem 0 0.7rem;
+        font-size: 0.9rem;
+      }
+
+      .product a {
+        color: #10101a;
+        text-decoration: none;
+        background: linear-gradient(90deg, #ffd06a, var(--sun));
+        padding: 0.38rem 0.58rem;
+        border-radius: 8px;
+        font-size: 0.8rem;
+        font-weight: 700;
+      }
+
+      @media (max-width: 780px) {
+        .hero {
+          align-items: center;
+        }
+
+        .city {
+          height: 30vh;
+        }
+
+        .store-panel {
+          margin-top: 1.4rem;
+        }
+      }
+    </style>
+  </head>
+  <body class="noise">
+    <section class="hero" aria-label="Tienda digital estilo neon-vice">
+      <div class="sun" aria-hidden="true"></div>
+      <div class="city" aria-hidden="true"></div>
+
+      <div class="content">
+        <p class="kicker">Neon City Digital Marketplace</p>
+        <h1>Vice<br />Market</h1>
+        <p class="tagline">
+          Una landing épica inspirada en estética neon retro: colores vibrantes, ambiente nocturno y una vibra cinematográfica para vender
+          pases VIP, skins y drops exclusivos.
+        </p>
+
+        <div class="actions">
+          <a class="btn btn-primary" href="#tienda">Explorar tienda</a>
+          <a class="btn btn-ghost" href="#drops">Ver drops de hoy</a>
+        </div>
+
+        <aside id="tienda" class="store-panel">
+          <div class="store-header">
+            <h2>Top productos digitales</h2>
+            <span class="badge">LIVE 24/7</span>
+          </div>
+
+          <div class="products" id="drops">
+            <article class="product">
+              <strong>Starter Neon Pack</strong>
+              <span>Avatar + banner + 500 créditos.</span>
+              <a href="#">Comprar $9</a>
+            </article>
+            <article class="product">
+              <strong>Vice Premium</strong>
+              <span>Beneficios VIP por 30 días.</span>
+              <a href="#">Comprar $19</a>
+            </article>
+            <article class="product">
+              <strong>Legend Drop Box</strong>
+              <span>Items raros aleatorios.</span>
+              <a href="#">Comprar $29</a>
+            </article>
+            <article class="product">
+              <strong>Founders Edition</strong>
+              <span>Pack limitado con insignia única.</span>
+              <a href="#">Comprar $49</a>
+            </article>
+          </div>
+        </aside>
+      </div>
+    </section>
+  </body>
+</html>
