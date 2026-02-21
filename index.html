@@ -1,0 +1,340 @@
+<!doctype html>
+<html lang="es">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Vice Market | Tienda Digital</title>
+    <style>
+      :root {
+        --bg-1: #09030f;
+        --bg-2: #170a27;
+        --pink: #ff4fd8;
+        --violet: #9b5dff;
+        --cyan: #3de4ff;
+        --sun: #ff9f43;
+        --text: #f8f8ff;
+        --muted: #c6bfd6;
+        --card: rgba(14, 7, 28, 0.72);
+        --stroke: rgba(255, 255, 255, 0.2);
+      }
+
+      * { box-sizing: border-box; }
+
+      html,
+      body {
+        margin: 0;
+        min-height: 100%;
+        font-family: "Inter", "Segoe UI", system-ui, sans-serif;
+        color: var(--text);
+        background: radial-gradient(circle at 70% 20%, #34114f 0%, transparent 42%),
+          radial-gradient(circle at 20% 80%, #130a2f 0%, transparent 45%),
+          linear-gradient(180deg, var(--bg-2) 0%, var(--bg-1) 62%);
+      }
+
+      .noise::before {
+        content: "";
+        position: fixed;
+        inset: 0;
+        pointer-events: none;
+        background-image: radial-gradient(rgba(255, 255, 255, 0.08) 0.7px, transparent 0.7px);
+        background-size: 3px 3px;
+        mix-blend-mode: soft-light;
+        opacity: 0.12;
+        z-index: 50;
+      }
+
+      .hero {
+        min-height: 92vh;
+        position: relative;
+        display: grid;
+        align-items: end;
+        overflow: hidden;
+      }
+
+      .sun {
+        position: absolute;
+        width: min(52vw, 580px);
+        aspect-ratio: 1;
+        left: 50%;
+        top: 14%;
+        transform: translateX(-50%);
+        border-radius: 50%;
+        background: linear-gradient(180deg, #ffd299 0%, #ff9655 35%, #ff4fd8 100%);
+        box-shadow: 0 0 60px rgba(255, 137, 92, 0.5), 0 0 130px rgba(255, 79, 216, 0.35);
+        opacity: 0.92;
+      }
+
+      .sun::after {
+        content: "";
+        position: absolute;
+        inset: 0;
+        border-radius: 50%;
+        background: repeating-linear-gradient(
+          180deg,
+          transparent 0,
+          transparent 16px,
+          rgba(31, 8, 42, 0.55) 16px,
+          rgba(31, 8, 42, 0.55) 20px
+        );
+      }
+
+      .city {
+        position: absolute;
+        inset: auto 0 0;
+        height: 38vh;
+        background: linear-gradient(180deg, transparent 0%, #09030f 95%),
+          linear-gradient(90deg, rgba(21, 10, 40, 0.6) 8%, rgba(28, 13, 46, 0.95) 10%, transparent 10%),
+          linear-gradient(90deg, transparent 14%, rgba(24, 12, 42, 0.9) 14%, rgba(24, 12, 42, 0.9) 16%, transparent 16%),
+          linear-gradient(90deg, transparent 22%, rgba(19, 9, 35, 0.95) 22%, rgba(19, 9, 35, 0.95) 25%, transparent 25%),
+          linear-gradient(90deg, transparent 33%, rgba(27, 12, 47, 0.92) 33%, rgba(27, 12, 47, 0.92) 36%, transparent 36%),
+          linear-gradient(90deg, transparent 47%, rgba(17, 9, 30, 0.95) 47%, rgba(17, 9, 30, 0.95) 53%, transparent 53%),
+          linear-gradient(90deg, transparent 59%, rgba(26, 12, 42, 0.95) 59%, rgba(26, 12, 42, 0.95) 62%, transparent 62%),
+          linear-gradient(90deg, transparent 68%, rgba(19, 10, 35, 0.9) 68%, rgba(19, 10, 35, 0.9) 73%, transparent 73%);
+      }
+
+      .content,
+      .catalog {
+        width: min(1120px, 92vw);
+        margin: 0 auto;
+      }
+
+      .content {
+        z-index: 3;
+        position: relative;
+        padding-bottom: 3.3rem;
+      }
+
+      .kicker {
+        margin: 0;
+        text-transform: uppercase;
+        letter-spacing: 0.33em;
+        font-size: 0.8rem;
+        color: var(--cyan);
+      }
+
+      h1 {
+        margin: 0.5rem 0;
+        font-size: clamp(2.4rem, 11vw, 8.5rem);
+        line-height: 0.86;
+        text-transform: uppercase;
+        text-shadow: 0 0 22px rgba(255, 92, 210, 0.55);
+      }
+
+      .tagline {
+        max-width: 58ch;
+        color: var(--muted);
+        margin: 0.9rem 0 1.8rem;
+      }
+
+      .actions { display: flex; gap: 0.8rem; flex-wrap: wrap; }
+
+      .btn {
+        border: 1px solid transparent;
+        border-radius: 999px;
+        padding: 0.72rem 1.25rem;
+        font-weight: 700;
+        text-decoration: none;
+        color: var(--text);
+      }
+
+      .btn-primary {
+        background: linear-gradient(90deg, var(--pink), var(--violet));
+        box-shadow: 0 8px 28px rgba(155, 93, 255, 0.45);
+      }
+
+      .btn-ghost {
+        border-color: var(--stroke);
+        background: rgba(255, 255, 255, 0.04);
+      }
+
+      .official-note {
+        margin-top: 1rem;
+        font-size: 0.95rem;
+        color: var(--muted);
+      }
+
+      .catalog {
+        padding: 2rem 0 4rem;
+      }
+
+      .catalog h2 {
+        margin: 0 0 1rem;
+        font-size: clamp(1.5rem, 3vw, 2.2rem);
+      }
+
+      .section-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+        gap: 1rem;
+      }
+
+      .section {
+        background: var(--card);
+        border: 1px solid var(--stroke);
+        border-radius: 18px;
+        padding: 1rem;
+        backdrop-filter: blur(7px);
+      }
+
+      .section-title {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        margin-bottom: 0.8rem;
+      }
+
+      .section-title h3 {
+        margin: 0;
+        font-size: 1.1rem;
+      }
+
+      .pill {
+        font-size: 0.74rem;
+        border: 1px solid rgba(255,255,255,0.24);
+        border-radius: 999px;
+        padding: 0.18rem 0.55rem;
+        color: var(--cyan);
+      }
+
+      .product {
+        background: rgba(9, 3, 17, 0.75);
+        border: 1px solid rgba(255, 255, 255, 0.13);
+        border-radius: 12px;
+        padding: 0.75rem;
+        margin-bottom: 0.6rem;
+      }
+
+      .product:last-child { margin-bottom: 0; }
+
+      .product strong { display: block; }
+
+      .product span {
+        display: block;
+        color: var(--muted);
+        font-size: 0.9rem;
+        margin: 0.35rem 0 0.65rem;
+      }
+
+      .buy {
+        display: inline-block;
+        color: #120d1d;
+        text-decoration: none;
+        background: linear-gradient(90deg, #ffd06a, var(--sun));
+        padding: 0.36rem 0.6rem;
+        border-radius: 8px;
+        font-weight: 700;
+        font-size: 0.82rem;
+      }
+
+      footer {
+        width: min(1120px, 92vw);
+        margin: 0 auto;
+        color: var(--muted);
+        padding-bottom: 2rem;
+        font-size: 0.9rem;
+      }
+
+      @media (max-width: 780px) {
+        .hero { min-height: 82vh; }
+        .city { height: 28vh; }
+      }
+    </style>
+  </head>
+  <body class="noise">
+    <header class="hero" aria-label="Hero principal de la tienda">
+      <div class="sun" aria-hidden="true"></div>
+      <div class="city" aria-hidden="true"></div>
+
+      <div class="content">
+        <p class="kicker">Discord principal y oficial</p>
+        <h1>Vice<br />Market</h1>
+        <p class="tagline">
+          Catálogo digital épico con secciones dedicadas a Discord, Roblox, Fortnite y VIP GEN. Todo gestionado desde nuestro Discord principal y oficial.
+        </p>
+        <div class="actions">
+          <a href="index-principal.html" class="btn btn-primary">Ir a página principal</a>
+          <a href="#vip-gen" class="btn btn-ghost">Ir a VIP GEN</a>
+        </div>
+        <p class="official-note">✓ Compras y soporte exclusivamente en el servidor oficial.</p>
+      </div>
+    </header>
+
+    <main id="productos" class="catalog" aria-label="Secciones de productos">
+      <h2>Secciones de la tienda</h2>
+
+      <div class="section-grid">
+        <section class="section" id="discord">
+          <div class="section-title">
+            <h3>Discord</h3>
+            <span class="pill">Comunidad</span>
+          </div>
+          <article class="product">
+            <strong>Boost Pack x2</strong>
+            <span>2 boosts para subir nivel del server.</span>
+            <a class="buy" href="#">Comprar $8</a>
+          </article>
+          <article class="product">
+            <strong>Rol Premium</strong>
+            <span>Rol exclusivo + acceso a canales privados.</span>
+            <a class="buy" href="#">Comprar $12</a>
+          </article>
+        </section>
+
+        <section class="section" id="roblox">
+          <div class="section-title">
+            <h3>Roblox</h3>
+            <span class="pill">Gaming</span>
+          </div>
+          <article class="product">
+            <strong>Robux Bundle</strong>
+            <span>Paquete rápido para skins y gamepasses.</span>
+            <a class="buy" href="#">Comprar $10</a>
+          </article>
+          <article class="product">
+            <strong>Cuenta Starter Pro</strong>
+            <span>Cuenta configurada con inventario base.</span>
+            <a class="buy" href="#">Comprar $20</a>
+          </article>
+        </section>
+
+        <section class="section" id="fortnite">
+          <div class="section-title">
+            <h3>Fortnite</h3>
+            <span class="pill">Battle</span>
+          </div>
+          <article class="product">
+            <strong>V-Bucks Pack</strong>
+            <span>Monedas para pases y cosméticos.</span>
+            <a class="buy" href="#">Comprar $15</a>
+          </article>
+          <article class="product">
+            <strong>Combo de Skins</strong>
+            <span>Selección rotativa de skins top.</span>
+            <a class="buy" href="#">Comprar $25</a>
+          </article>
+        </section>
+
+        <section class="section" id="vip-gen">
+          <div class="section-title">
+            <h3>VIP GEN</h3>
+            <span class="pill">Exclusivo</span>
+          </div>
+          <article class="product">
+            <strong>VIP GEN Mensual</strong>
+            <span>Acceso completo a herramientas VIP por 30 días.</span>
+            <a class="buy" href="#">Comprar $30</a>
+          </article>
+          <article class="product">
+            <strong>VIP GEN Lifetime</strong>
+            <span>Acceso permanente + prioridad en soporte.</span>
+            <a class="buy" href="#">Comprar $99</a>
+          </article>
+        </section>
+      </div>
+    </main>
+
+    <footer>
+      Vice Market © 2026 · Disponible solo en nuestro Discord principal y oficial.
+    </footer>
+  </body>
+</html>
